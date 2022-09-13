@@ -26,7 +26,8 @@
 	fieldset {
 		border: none;
 	}
-	fieldset > div {
+	fieldset > div > label {
+		display: block;
 		margin: 1rem 0rem;
 		padding: 1rem 0.5rem;
 		background-color: white;
@@ -36,5 +37,20 @@
 		opacity: 0;
 		position: fixed;
 		width: 0;
+	}
+	fieldset input[type='radio']:focus + label {
+	}
+	fieldset input[type='radio']:checked + label {
+		/* color: #ffb56b; */
+		font-weight: 700;
+		color: #fff;
+	}
+	fieldset input[type='radio']:checked + label[for='yes'] {
+		/* color: #ffb56b; */
+		background-color: green;
+	}
+	fieldset input[type='radio']:checked + label[for='no'] {
+		/* color: #ffb56b; */
+		background-color: red;
 	}
 </style>
