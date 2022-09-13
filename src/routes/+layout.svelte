@@ -1,14 +1,12 @@
 <script lang="ts">
-	import Header from '$lib/header/Header.svelte';
 	import '../app.css';
 </script>
 
-<Header />
-
+<h1>Kompis.VOTE</h1>
 <main>
 	<slot />
 </main>
-
+<footer />
 
 <style>
 	main {
@@ -32,11 +30,5 @@
 
 	footer a {
 		font-weight: bold;
-	}
-
-	@media (min-width: 480px) {
-		footer {
-			padding: 40px 0;
-		}
 	}
 </style>
