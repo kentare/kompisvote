@@ -1,23 +1,70 @@
 <script lang="ts">
-	let value = 5;
-	let numleft = '35%';
-	let numbottom = '-0%';
+	import { onMount } from 'svelte';
+	import { text } from 'svelte/internal';
+	let observer;
+	let chosen;
+	let possibleAnswers = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 
-	const onChange = (
-		event: Event & {
-			currentTarget: EventTarget & HTMLInputElement;
+	let colors = [
+		'#f200ff',
+		'#f200ff',
+		'#f200ff',
+		'#ff00d4',
+		'#ff00d4',
+		'#ff00d4',
+		'#ff00ad',
+		'#ff00ad',
+		'#ff00ad',
+		'#ff408d',
+		'#ff408d',
+		'#ff408d',
+		'#ff6775',
+		'#ff6775',
+		'#ff6775',
+		'#ff8666',
+		'#ff8666',
+		'#ff8666',
+		'#ffa063',
+		'#ffa063',
+		'#ffa063',
+		'#ffb56b',
+		'#ffb56b',
+		'#ffb56b'
+	];
+
+	setInterval(() => {
+		if (colors.length > 0) {
+			const [first, ...rest] = colors;
+			colors = [...rest, first];
 		}
-	) => {
-		value = Number(event.currentTarget.value);
-		if (value < 10) {
-			numleft = '35%';
-			numbottom = '-0%';
-		} else {
-			numleft = '18%';
-			numbottom = '4%';
-		}
-		//  rangeV.style.left = `calc(${newValue}% + (${newPosition}px))`;
+	}, 40);
+
+	const callback = (entries: IntersectionObserverEntry[]) => {
+		const box = entries[0];
+		if (!box.isIntersecting) return;
+
+		chosen = Number(entries[0].target.innerHTML);
+		console.log(chosen);
 	};
+	onMount(() => {
+		let options = {
+			root: document.querySelector('#scrollArea'),
+			rootMargin: '-45% 0% -45% 0%',
+			threshold: 0
+		};
+		observer = new IntersectionObserver(callback, options);
+
+		let target = document.querySelector('#scrollArea')?.children;
+		if (!target) return;
+
+		for (const element of target) {
+			observer.observe(element);
+		}
+	});
+
+	let textStyle = `
+
+`;
 </script>
 
 <svelte:head>
@@ -25,149 +72,65 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<div class="outer-wrapper">
-	<h1>På en skala på 1 til 10: Hvor nice ass har Ole?</h1>
-	<div class="center" style="--gradient-colors: {[].join(', ')}">
-		<div class="wrapper">
-			<input
-				type="range"
-				style="--text: '{value}'; --numleft: {numleft}; --numbottom: {numbottom}"
-				on:change={onChange}
-				on:touchmove={onChange}
-				min="1"
-				max="10"
-				{value}
-			/>
-			<span class="showValue">{value}</span>
-		</div>
-	</div>
+<div style="--gradient-colors: {colors.join(', ')}">
+	<h1>På en skala fra 1 til 10, hvor nice er assen til Ole?</h1>
+	<ul id="scrollArea">
+		{#each possibleAnswers as answer}
+			<li><div class:selected={chosen === answer}>{answer}</div></li>
+		{/each}
+	</ul>
 </div>
 
 <style>
-	.wrapper {
+	.selected {
+		background: conic-gradient(var(--gradient-colors), var(--gradient-colors));
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+	ul li:first-child {
+		padding-top: 100px;
+	}
+	ul li:last-child {
+		padding-bottom: 100px;
+	}
+	ul {
+		color: white;
+		border: 1px 1px solid #fff;
+		margin-top: 0px;
+		padding: 0px 0px;
+		height: 200px;
+		width: 100%;
+		overflow-y: scroll;
+		font-size: 50px;
 		display: flex;
-		justify-content: center;
+		flex-direction: column;
+		align-items: center;
+		scroll-snap-type: y mandatory;
+		border-top: 2px;
+		border: solid;
+
+		mask-image: linear-gradient(black 60%, transparent 100%, black 60%),
+			linear-gradient(to top, black 60%, transparent 100%, black 60%);
+		mask-size: 120% 120%;
+		mask-position: center;
+		mask-repeat: no-repeat;
+		mask-composite: intersect;
+
+		position: relative;
 	}
 
-	@media (max-width: 576px) {
-		.showValue {
-			display: none;
+	@supports (-webkit-mask-composite: source-in) {
+		ul {
+			-webkit-mask-image: linear-gradient(black 60%, transparent 100%, black 60%),
+				linear-gradient(to top, black 60%, transparent 100%, black 60%);
+			-webkit-mask-size: 120% 120%;
+			-webkit-mask-position: center;
+			-webkit-mask-repeat: no-repeat;
+			-webkit-mask-composite: source-in;
 		}
-		:root {
-			--text: '5';
-			--thumbthick: 5vh;
-			--numleft: 28%;
-			--numbottom: -14%;
-		}
-
-		.center {
-			width: 100%;
-			height: 90vw;
-		}
-		.wrapper {
-			position: relative;
-		}
-
-		input[type='range'] {
-			-webkit-appearance: none;
-			background: transparent;
-			transform: rotate(270deg);
-			transform-origin: center;
-		}
-
-		input[type='range'] {
-			-webkit-appearance: none;
-			margin: 48px 0;
-			width: 90vw;
-		}
-		input[type='range']:focus {
-			outline: none;
-		}
-		input[type='range']::-webkit-slider-runnable-track {
-			width: 100%;
-			height: 65vw;
-			cursor: pointer;
-			background: linear-gradient(0deg, var(--gradient-colors));
-			border-radius: 1.3px;
-			border: 2px solid #fff;
-		}
-		input[type='range']::before {
-			content: var(--text);
-			transform: rotate(90deg);
-			transform-origin: center;
-			font-size: 25ch;
-			left: var(--numleft);
-			bottom: var(--numbottom);
-			color: white;
-			position: absolute;
-		}
-		input[type='range']::-webkit-slider-thumb {
-			border: 1px solid #000000;
-			position: relative;
-			height: 70vw;
-			margin-top: -11px;
-			width: var(--thumbthick);
-			border-radius: 3px;
-			background: #ffffff;
-			cursor: pointer;
-			-webkit-appearance: none;
-		}
-		input[type='range']:focus::-webkit-slider-runnable-track {
-			background: #367ebd;
-		}
-		input[type='range']::-moz-range-track {
-			width: 100%;
-			height: 65vw;
-			cursor: pointer;
-			box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-			background: #3071a9;
-			border-radius: 1.3px;
-			border: 0.2px solid #010101;
-		}
-		input[type='range']::-moz-range-thumb {
-			box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-			border: 1px solid #000000;
-			height: 70vw;
-			width: var(--thumbthick);
-			border-radius: 3px;
-			background: #ffffff;
-			cursor: pointer;
-		}
-		input[type='range']::-ms-track {
-			width: 100%;
-			height: 65vw;
-			cursor: pointer;
-			background: transparent;
-			border-color: transparent;
-			border-width: 16px 0;
-			color: transparent;
-		}
-		input[type='range']::-ms-fill-lower {
-			background: #2a6495;
-			border: 0.2px solid #010101;
-			border-radius: 2.6px;
-			box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-		}
-		input[type='range']::-ms-fill-upper {
-			background: #3071a9;
-			border: 0.2px solid #010101;
-			border-radius: 2.6px;
-			box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-		}
-		input[type='range']::-ms-thumb {
-			box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-			border: 1px solid #000000;
-			height: 70vw;
-			width: var(--thumbthick);
-			border-radius: 3px;
-			background: #ffffff;
-			cursor: pointer;
-		}
-		input[type='range']:focus::-ms-fill-lower {
-			background: #3071a9;
-		}
-		input[type='range']:focus::-ms-fill-upper {
-			background: #367ebd;
-		}
+	}
+	li {
+		list-style: none;
+		scroll-snap-align: center;
 	}
 </style>

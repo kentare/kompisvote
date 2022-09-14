@@ -91,7 +91,7 @@
 	}
 	.main {
 		height: 100vh;
-		padding-bottom: 150px;
+		/* padding-bottom: 150px; */
 	}
 	main {
 		flex: 1;
