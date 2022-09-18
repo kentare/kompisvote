@@ -22,6 +22,7 @@ body {
 	margin: 0;
 	background-color: var(--primary-color);
 	background: linear-gradient(0deg, var(--gradient-colors));
+	padding-bottom: 50px;
 }
 
 #svelte {

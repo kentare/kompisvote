@@ -8,9 +8,9 @@
 		<h1>Kompis.VOTE</h1>
 		<slot />
 		<nav data-sveltekit-prefetch>
-			<div class="btnwrapper">
+			<!-- <div class="btnwrapper">
 				<button>Send inn</button>
-			</div>
+			</div> -->
 			<ul>
 				<li class:active={$page.url.pathname === '/binary'}>
 					<a href="/binary">Binary</a>
@@ -54,7 +54,7 @@
 
 	nav a {
 		display: flex;
-		height: 100%;
+		height: 50px;
 		align-items: center;
 		padding: 0 1em;
 		font-weight: 700;
@@ -89,19 +89,7 @@
 	h1 {
 		align-self: start;
 	}
-	.main {
-		height: 100vh;
-		/* padding-bottom: 150px; */
-	}
 	main {
-		flex: 1;
-		display: grid;
-		grid-template-rows: 15% 1fr 15%;
-		padding: 0rem 1rem;
-		width: 100%;
 		height: 100%;
-		max-width: 1024px;
-		margin: 0 auto;
-		box-sizing: border-box;
 	}
 </style>

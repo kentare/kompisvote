@@ -118,7 +118,8 @@
 		transform: rotate(45deg);
 	}
 	.center {
-		align-self: center;
+		height: 100%;
+		align-items: center;
 	}
 	fieldset {
 		border: none;

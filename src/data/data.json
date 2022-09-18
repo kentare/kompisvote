@@ -1,59 +1,22 @@
 {
-    "questions": [
-        {
-            "question": "Rating: Hvor nice er assen til Ole?",
-            "type": "rating",
-            "possibleAnswers": [
-                10,
-                9,
-                8,
-                7,
-                6,
-                5,
-                4,
-                3,
-                2,
-                1
-            ],
-            "answers": [
-                9,
-                8,
-                6
-            ]
-        },
-        {
-            "question": "Binary: Hvor nice er assen til Ole?",
-            "type": "binary",
-            "possibleAnswers": [
-                "yes",
-                "no"
-            ],
-            "answers": [
-                "yes",
-                "yes",
-                "no"
-            ]
-        },
-        {
-            "question": "Multiple: Hvor nice er assen til Ole?",
-            "type": "multiple",
-            "possibleAnswers": [
-                "yes",
-                "no"
-            ],
-            "answers": [
-                [
-                    "yes"
-                ],
-                [
-                    "no",
-                    "yes"
-                ],
-                [
-                    "yes",
-                    "no"
-                ]
-            ]
-        }
-    ]
+	"questions": [
+		{
+			"question": "Rating: Hvor nice er assen til Ole?",
+			"type": "rating",
+			"possibleAnswers": [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+			"answers": [9, 8, 6, 6]
+		},
+		{
+			"question": "Binary: Hvor nice er assen til Ole?",
+			"type": "binary",
+			"possibleAnswers": ["yes", "no"],
+			"answers": ["yes", "yes", "no"]
+		},
+		{
+			"question": "Multiple: Hvor nice er assen til Ole?",
+			"type": "multiple",
+			"possibleAnswers": ["yes", "no"],
+			"answers": [["yes"], ["no", "yes"], ["yes", "no"], ["no", "no"]]
+		}
+	]
 }
