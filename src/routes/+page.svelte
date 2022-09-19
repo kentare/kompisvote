@@ -1,6 +1,6 @@
 <script lang="ts">
 	import data from '../data/data.json';
-	import Stars from '$lib/stars/stars.svelte';
+	import Stars from '$lib/components/icons/stars/Stars.svelte';
 	function getMostFrequent(arr) {
 		const hashmap = arr.reduce((acc, val) => {
 			acc[val] = (acc[val] || 0) + 1;

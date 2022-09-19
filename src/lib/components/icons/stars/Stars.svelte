@@ -1,7 +1,7 @@
 <script>
-	import Full from './full.svelte';
-	import Half from './half.svelte';
-	import Empty from './empty.svelte';
+	import Full from './Full.svelte';
+	import Half from './Half.svelte';
+	import Empty from './Empty.svelte';
 
 	export let average;
 

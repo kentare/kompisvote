@@ -1,6 +1,9 @@
 <script lang="ts">
 	import '../app.css';
 	import { page } from '$app/stores';
+	import Home from '$lib/components/icons/footer/Home.svelte';
+	import Plus from '$lib/components/icons/footer/Plus.svelte';
+	import QuestionMark from '$lib/components/icons/footer/QuestionMark.svelte';
 </script>
 
 <div class="main">
@@ -12,14 +15,20 @@
 				<button>Send inn</button>
 			</div> -->
 			<ul>
-				<li class:active={$page.url.pathname === '/binary'}>
-					<a href="/binary">Binary</a>
+				<li class:active={$page.url.pathname === '/'}>
+					<a href="/">
+						<svelte:component this={Home} />
+					</a>
 				</li>
-				<li class:active={$page.url.pathname === '/multiple'}>
-					<a href="/multiple">Multiple</a>
+				<li class:active={$page.url.pathname === '/answer'}>
+					<a href="/answer">
+						<svelte:component this={QuestionMark} />
+					</a>
 				</li>
-				<li class:active={$page.url.pathname === '/rating'}>
-					<a href="/rating">Rating</a>
+				<li class:active={$page.url.pathname === '/add'}>
+					<a href="/add">
+						<svelte:component this={Plus} />
+					</a>
 				</li>
 			</ul>
 		</nav>
@@ -27,18 +36,6 @@
 </div>
 
 <style>
-	.btnwrapper {
-		display: flex;
-	}
-	button {
-		border: none;
-		background-color: white;
-		font-size: 2rem;
-		width: 50vw;
-		height: 100px;
-		margin-left: auto;
-		margin-bottom: -1px;
-	}
 	nav {
 		position: fixed;
 		bottom: 0;
@@ -50,6 +47,7 @@
 		position: relative;
 		height: 100%;
 		width: 100%;
+		color: #91908d;
 	}
 
 	nav a {
@@ -65,7 +63,7 @@
 		text-decoration: none;
 		transition: color 0.2s linear;
 		text-align: center;
-		color: black;
+		color: #91908d;
 	}
 
 	ul {
@@ -83,6 +81,7 @@
 	li.active {
 		background-color: #f200ff;
 	}
+
 	li.active a {
 		color: rgb(255, 255, 255);
 	}
