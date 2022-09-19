@@ -1,16 +1,21 @@
-<script>
-	let numberOfQuestions = 1;
-	function addQuestion() {
-		numberOfQuestions++;
-	}
-</script>
+<div>
+	<h2>Velg spørsmålstype</h2>
+	<a href="/add/binary">Ett riktig svar</a>
+	<a href="/add/multiple">Flerevalgs svar</a>
+	<a href="/add/rating"> Rate 1-10</a>
+</div>
 
-<form>
-	<label for="question">Question</label>
-	<textarea rows="4" cols="50" name="question" type="text" />
-	{#each Array(numberOfQuestions) as _, i}
-		<label for="answer{i}">Answer {i + 1}</label>
-		<input type="text" />
-	{/each}
-</form>
-<button on:click={addQuestion}> Add question </button>
+<style>
+	h2 {
+		text-align: center;
+	}
+	a {
+		background-color: #fff;
+		color: #000;
+		display: block;
+		margin: 1rem;
+		text-align: center;
+		padding: 1.2rem 1rem;
+		border-radius: 10px;
+	}
+</style>

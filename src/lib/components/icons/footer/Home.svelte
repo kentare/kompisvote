@@ -1,3 +1,8 @@
+<script>
+	import { draw } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
+</script>
+
 <svg
 	xmlns="http://www.w3.org/2000/svg"
 	version="1.1"
