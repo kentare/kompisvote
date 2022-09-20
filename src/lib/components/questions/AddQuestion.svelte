@@ -1,48 +1,59 @@
-<script>
+<script lang="ts">
 	import { fade } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 	import Close from '$lib/components/icons/Close.svelte';
+	import Plus from '$lib/components/icons/footer/Plus.svelte';
+	export let action = '';
+	export let type = '';
 	let answers = ['', ''];
 	let question = '';
 	function addQuestion() {
 		answers.push('');
 		answers = answers;
 	}
-	function removeQuestion(index) {
+	function removeQuestion(index: number) {
 		let newAnsw = [...answers.slice(0, index), ...answers.slice(index + 1, answers.length)];
 		answers = newAnsw;
 	}
 </script>
 
-<div class="wrapper">
-	<form class="form">
-		<label class="question" for="question">
-			<textarea rows="4" name="question" type="text" bind:value={question} />
-			<span class="questiontext">Question</span>
-		</label>
+<form class="form" method="POST" {action}>
+	<label class="question" for="question">
+		<textarea rows="4" name="question" type="text" bind:value={question} />
+		<span class="questiontext">Spørsmål</span>
+	</label>
+	{#if type === 'binary' || type === 'multiple'}
 		{#each answers as _, i}
 			<label transition:fade={{ duration: 500, easing: quintOut }} for="answer{i}">
-				<input type="text" bind:value={answers[i]} />
+				<input type="text" name="answer{i}" bind:value={answers[i]} />
 				<span class="number">{i + 1}</span>
 				<button type="button" class="rm-btn" on:click|preventDefault={() => removeQuestion(i)}>
 					<svelte:component this={Close} />
 				</button>
 			</label>
 		{/each}
-	</form>
-	<button type="button" class="add-btn" on:click={addQuestion}> Add question </button>
-</div>
+		<button type="button" class="add btn" on:click={addQuestion}>
+			<svelte:component this={Plus} />
+		</button>
+	{/if}
+	<button class="submit btn">Legg til</button>
+</form>
 
 <style>
-	.wrapper {
-		display: flex;
-		flex-direction: column;
+	.submit {
+		margin: 1rem 0;
 	}
-	.add-btn {
-		flex: 1;
-		margin: 0.5rem 1rem;
-		padding: 0.5rem 1rem;
+	.add {
+		/* align-self: end; */
+		height: 34px;
+		padding: 0.5rem 0.5rem;
+		margin: 1rem 0;
+		border: 0;
+		background-color: #fff;
+	}
+	.btn {
 		border-radius: 1rem;
+		padding: 0.5rem 1rem;
 		border: 0;
 		background-color: #fff;
 	}
