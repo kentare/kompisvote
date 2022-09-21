@@ -4,6 +4,7 @@
 	import Home from '$lib/components/icons/footer/Home.svelte';
 	import Plus from '$lib/components/icons/footer/Plus.svelte';
 	import QuestionMark from '$lib/components/icons/footer/QuestionMark.svelte';
+	let unanswered = false;
 </script>
 
 <div class="main">
@@ -11,17 +12,17 @@
 		<h1>Kompis.VOTE</h1>
 		<slot />
 		<nav data-sveltekit-prefetch>
-			<!-- <div class="btnwrapper">
-				<button>Send inn</button>
-			</div> -->
 			<ul>
 				<li class:active={$page.url.pathname === '/'}>
 					<a href="/">
 						<svelte:component this={Home} />
 					</a>
 				</li>
-				<li class:active={$page.url.pathname === '/answer'}>
-					<a href="/answer" class="unanswered">
+				<li class:active={$page.url.pathname === '/vote/unanswered'}>
+					<a
+						href="/vote/unanswered"
+						class:unanswered={unanswered && $page.url.pathname !== '/vote/unanswered'}
+					>
 						<svelte:component this={QuestionMark} />
 						<span class="bubble" />
 					</a>

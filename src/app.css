@@ -81,6 +81,16 @@ button:focus:not(:focus-visible) {
 	outline: none;
 }
 
+.boxed {
+	background-color: #fff;
+	color: #000;
+	display: block;
+	margin: 1rem;
+	text-align: center;
+	padding: 1.2rem 1rem;
+	border-radius: 1rem;
+}
+
 @media (min-width: 720px) {
 	h1 {
 		font-size: 2.4rem;

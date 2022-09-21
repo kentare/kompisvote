@@ -1,19 +1,22 @@
 {
 	"questions": [
 		{
-			"question": "Rating: Hvor nice er assen til Ole?",
+			"id": 1,
+			"question": "Hvor nice er assen til Ole?",
 			"type": "rating",
 			"possibleAnswers": [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
 			"answers": [9, 8, 6, 6]
 		},
 		{
-			"question": "Binary: Hvor nice er assen til Ole?",
+			"id": 2,
+			"question": "Har Ole nice ass?",
 			"type": "binary",
 			"possibleAnswers": ["yes", "no"],
 			"answers": ["yes", "yes", "no"]
 		},
 		{
-			"question": "Multiple: Hvor nice er assen til Ole?",
+			"id": 3,
+			"question": "Synes du Ole er sexy? Du kan svare både ja og nei",
 			"type": "multiple",
 			"possibleAnswers": ["yes", "no"],
 			"answers": [["yes"], ["no", "yes"], ["yes", "no"], ["no", "no"]]
