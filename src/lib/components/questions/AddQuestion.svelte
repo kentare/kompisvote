@@ -3,6 +3,7 @@
 	import { quintOut } from 'svelte/easing';
 	import Close from '$lib/components/icons/Close.svelte';
 	import Plus from '$lib/components/icons/footer/Plus.svelte';
+
 	export let action = '';
 	export let type = '';
 	let answers = ['', ''];

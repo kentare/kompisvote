@@ -1,50 +1,21 @@
 <script lang="ts">
+	import type { Rating } from '$lib/supabase/types';
+	import Fieldset from '../inputs/Fieldset.svelte';
+	import Legend from '../inputs/Legend.svelte';
+	import SubmitButton from '../inputs/SubmitButton.svelte';
+
 	import { onMount } from 'svelte';
-	import { text } from 'svelte/internal';
+
+	export let question: Rating;
 	let observer;
-	let chosen;
+	let chosen = 10;
 	let possibleAnswers = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
-
-	let colors = [
-		'#f200ff',
-		'#f200ff',
-		'#f200ff',
-		'#ff00d4',
-		'#ff00d4',
-		'#ff00d4',
-		'#ff00ad',
-		'#ff00ad',
-		'#ff00ad',
-		'#ff408d',
-		'#ff408d',
-		'#ff408d',
-		'#ff6775',
-		'#ff6775',
-		'#ff6775',
-		'#ff8666',
-		'#ff8666',
-		'#ff8666',
-		'#ffa063',
-		'#ffa063',
-		'#ffa063',
-		'#ffb56b',
-		'#ffb56b',
-		'#ffb56b'
-	];
-
-	setInterval(() => {
-		if (colors.length > 0) {
-			const [first, ...rest] = colors;
-			colors = [...rest, first];
-		}
-	}, 40);
 
 	const callback = (entries: IntersectionObserverEntry[]) => {
 		const box = entries[0];
 		if (!box.isIntersecting) return;
 
 		chosen = Number(entries[0].target.innerHTML);
-		console.log(chosen);
 	};
 	onMount(() => {
 		let options = {
@@ -61,31 +32,28 @@
 			observer.observe(element);
 		}
 	});
-
-	let textStyle = `
-
-`;
 </script>
 
-<svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
-</svelte:head>
-
-<div style="--gradient-colors: {colors.join(', ')}">
-	<h1>På en skala fra 1 til 10, hvor nice er assen til Ole?</h1>
-	<ul id="scrollArea">
-		{#each possibleAnswers as answer}
-			<li><div class:selected={chosen === answer}>{answer}</div></li>
-		{/each}
-	</ul>
-</div>
+<form>
+	<Fieldset>
+		<Legend>{question.text}</Legend>
+		<input type="number" bind:value={chosen} />
+		<ul id="scrollArea">
+			{#each possibleAnswers as answer}
+				<li>{answer}</li>
+			{/each}
+		</ul>
+		<SubmitButton />
+	</Fieldset>
+</form>
 
 <style>
-	.selected {
-		background: conic-gradient(var(--gradient-colors), var(--gradient-colors));
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
+	input {
+		width: 0px;
+		height: 0px;
+		position: absolute;
+		background: none;
+		border: none;
 	}
 	ul li:first-child {
 		padding-top: 100px;

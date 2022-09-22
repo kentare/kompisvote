@@ -1,14 +1,18 @@
-import { error } from '@sveltejs/kit';
-import data from '../../../data/data.json';
+import { error as svelteError } from '@sveltejs/kit';
+import { getQuestion } from '$lib/supabase/get';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params }) {
-	const post = data.questions.find((data) => Number(params.id) === data.id);
-	console.log(post);
-
-	if (post) {
-		return post;
+	const { data, error } = await getQuestion(params.id);
+	const result = {
+		rating: undefined,
+		multiple: undefined,
+		binary: undefined
+	};
+	if (data) {
+		result[data.type.name] = data;
+		return result;
 	}
 
-	throw error(404, 'Not found');
+	throw svelteError(404, 'Not found');
 }

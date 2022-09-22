@@ -1,7 +1,9 @@
 <script lang="ts">
-	import data from '../../../data/data.json';
+	import type { Question } from '$lib/supabase/types';
+
+	export let data: Question[];
 </script>
 
-{#each data.questions as question}
-	<a href="/vote/{question.id}" class="boxed">{question.question}</a>
+{#each Object.values(data) as question}
+	<a href="/vote/{question.id}" class="boxed">{question.text}</a>
 {/each}
