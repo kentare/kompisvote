@@ -41,3 +41,29 @@ export const createPossibleAnswersForQuestion = async (
 		.from<{ text: string; question_id: number }>('possible_answer')
 		.insert(answers);
 };
+
+export const answerWithAnswerID = async (
+	question_id: number,
+	possible_answer_ids: number[],
+	user_id: number
+) => {
+	const answers = possible_answer_ids.map((id) => {
+		return {
+			possible_answer_id: id,
+			answered_by_user_id: user_id,
+			question_id
+		};
+	});
+	return await supabase.from<definitions['answer']>('answer').insert(answers);
+};
+
+export const answerRating = async (question_id: number, rating: number, user_id: number) => {
+	const answer = [
+		{
+			numeric: rating,
+			answered_by_user_id: user_id,
+			question_id
+		}
+	];
+	return await supabase.from<definitions['answer']>('answer').insert(answer);
+};

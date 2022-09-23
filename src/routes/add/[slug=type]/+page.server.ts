@@ -2,14 +2,18 @@
 // 2 = multiple
 // 3 = rating
 
-import { createQuestion } from '$lib/supabase/answer';
+import { createQuestion } from '$lib/supabase/insert';
+import type { Action, Actions } from '@sveltejs/kit';
+export interface FormResult {
+	success: boolean;
+	id: number;
+}
 
-/** @type {import('./$types').Actions} */
-export const actions = {
+export const actions: Actions = {
 	binary: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const formData = Object.fromEntries(data.entries());
-		const text = formData.question;
+		const text = formData.question as string;
 		const answersArray = answersToArray(formData);
 		const question = await createQuestion(text, 1, 1, answersArray);
 		return {
@@ -20,7 +24,7 @@ export const actions = {
 	multiple: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const formData = Object.fromEntries(data.entries());
-		const text = formData.question;
+		const text = formData.question as string;
 		const answersArray = answersToArray(formData);
 		const question = await createQuestion(text, 2, 1, answersArray);
 		return {
@@ -31,7 +35,7 @@ export const actions = {
 	rating: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const formData = Object.fromEntries(data.entries());
-		const text = formData.question;
+		const text = formData.question as string;
 		const question = await createQuestion(text, 3, 1);
 		return {
 			success: true,
@@ -40,8 +44,8 @@ export const actions = {
 	}
 };
 
-const answersToArray = (obj: Record<string, string>) => {
+const answersToArray = (obj: { [k: string]: FormDataEntryValue }) => {
 	return Object.entries(obj)
 		.filter(([key, _]) => key.startsWith('answer'))
-		.map(([_, value]) => value);
+		.map(([_, value]) => value as string);
 };

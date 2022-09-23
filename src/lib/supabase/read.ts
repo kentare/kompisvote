@@ -1,9 +1,10 @@
 import type { definitions } from 'src/types/supabase';
 import { supabase } from './client';
+import type { Rating, Multiple, Binary } from './types';
 
 export const getQuestion = async (id: number) => {
 	return await supabase
-		.from<definitions['question']>('question')
+		.from<Rating | Multiple | Binary>('question')
 		.select(
 			`
     id,
@@ -28,11 +29,6 @@ export const getQuestion = async (id: number) => {
 		.single();
 };
 
-export const getQuestionForVote = async () => {
-	return await supabase.from<definitions['question']>('question').select(
-		`
-    id,
-    text
-    `
-	);
+export const getQuestionForVote = async (user_id: number) => {
+	return await supabase.rpc('get_unanswered_questions', { user_id: '1' });
 };

@@ -1,10 +1,12 @@
 <script lang="ts">
 	export let type: 'radio' | 'checkbox' = 'radio';
 	export let id: string;
+	export let name: string;
+	export let value = id;
 </script>
 
 <label class="container" for={id}>
-	<input {type} {id} name="input" />
+	<input {type} {id} {name} {value} />
 	<span class={type} />
 	<slot />
 </label>

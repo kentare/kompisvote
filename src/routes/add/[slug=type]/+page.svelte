@@ -3,8 +3,9 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import type { FormResult } from './+page.server';
 	let type = $page.url.pathname.split('/').pop();
-	export let form;
+	export let form: FormResult;
 	console.log(form);
 	onMount(() => {
 		if (form?.success) {

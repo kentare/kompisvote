@@ -5,6 +5,7 @@
 	import SubmitButton from '../inputs/SubmitButton.svelte';
 
 	import { onMount } from 'svelte';
+	import InvisibleInput from '../inputs/InvisibleInput.svelte';
 
 	export let question: Rating;
 	let observer;
@@ -34,10 +35,12 @@
 	});
 </script>
 
-<form>
+<form method="POST" action="?/rating">
 	<Fieldset>
 		<Legend>{question.text}</Legend>
-		<input type="number" bind:value={chosen} />
+		<InvisibleInput name="question_id" value={question.id} />
+		<InvisibleInput name="input" value={chosen} />
+		<!-- <input name="input" type="number" bind:value={chosen} /> -->
 		<ul id="scrollArea">
 			{#each possibleAnswers as answer}
 				<li>{answer}</li>

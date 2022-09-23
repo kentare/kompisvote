@@ -6,7 +6,7 @@ export interface Question {
 }
 
 export interface QuestionType {
-	name: string;
+	name: 'multiple' | 'binary' | 'rating';
 }
 
 export interface PossibleAnswer {
@@ -14,11 +14,11 @@ export interface PossibleAnswer {
 	text: string;
 }
 export interface Binary extends Question {
-	possible_answer: PossibleAnswer[];
+	possible_answer?: PossibleAnswer[];
 }
 
 export interface Multiple extends Question {
-	possible_answer: PossibleAnswer[];
+	possible_answer?: PossibleAnswer[];
 }
 export interface Rating extends Question {}
 

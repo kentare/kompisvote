@@ -1,24 +1,25 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Binary from '$lib/components/questions/Binary.svelte';
 	import Multiple from '$lib/components/questions/Multiple.svelte';
 	import Rating from '$lib/components/questions/Rating.svelte';
-	import type {
-		Rating as RatingType,
-		Binary as BinaryType,
-		Multiple as MultipleType
-	} from '$lib/supabase/types';
+	import { onMount } from 'svelte';
+	import type { VoteFormResult, VoteLoadResult } from './+page.server';
 
-	export let data: {
-		rating: RatingType;
-		binary: BinaryType;
-		multiple: MultipleType;
-	};
+	export let data: VoteLoadResult;
+
+	export let form: VoteFormResult;
+	onMount(() => {
+		if (form?.success) {
+			goto(`/`);
+		}
+	});
 </script>
 
-{#if data.rating}
-	<Rating question={data.rating} />{/if}
-{#if data.binary}
-	<Binary question={data.binary} />{/if}
-{#if data.multiple}
-	<Multiple question={data.multiple} />
+{#if data.type.name === 'rating'}
+	<Rating question={data} />{/if}
+{#if data.type.name === 'binary'}
+	<Binary question={data} />{/if}
+{#if data.type.name === 'multiple'}
+	<Multiple question={data} />
 {/if}
