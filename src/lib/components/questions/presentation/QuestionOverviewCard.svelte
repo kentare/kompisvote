@@ -23,31 +23,35 @@
 
 <div class="card">
 	<div class="question">{filtered.text}</div>
-	{#if filtered.type.name === 'rating'}
-		<div class="stars">
-			<Stars average={filtered.average} />
-			<div>{filtered.average?.toFixed(2)} / 10</div>
-		</div>
-	{/if}
+	{#if filtered?.answer?.length === 0}
+		Ingen har svart på dette spørsmålet
+	{:else}
+		{#if filtered.type.name === 'rating'}
+			<div class="stars">
+				<Stars average={filtered.average} />
+				<div>{filtered.average?.toFixed(2)} / 10</div>
+			</div>
+		{/if}
 
-	{#if filtered.type.name !== 'rating'}
-		{#if filtered.filtered_question}
-			{#each filtered.filtered_question as possible}
-				<div class:active={possible.winner}>
-					<h3>{possible.text}</h3>
-					<div class="barline" style="--barlength: {possible.percent}%;">
-						<div class="barwrapper">
-							<div class="bar">
-								<span class="percent">{possible.percent}%</span>
+		{#if filtered.type.name !== 'rating'}
+			{#if filtered.filtered_question}
+				{#each filtered.filtered_question as possible}
+					<div class:active={possible.winner}>
+						<h3>{possible.text}</h3>
+						<div class="barline" style="--barlength: {possible.percent}%;">
+							<div class="barwrapper">
+								<div class="bar">
+									<span class="percent">{possible.percent}%</span>
+								</div>
+							</div>
+							<div class="votes">
+								<span>{possible.count}</span>
+								<span>votes</span>
 							</div>
 						</div>
-						<div class="votes">
-							<span>{possible.count}</span>
-							<span>votes</span>
-						</div>
 					</div>
-				</div>
-			{/each}
+				{/each}
+			{/if}
 		{/if}
 	{/if}
 </div>
@@ -109,7 +113,7 @@
 	}
 	.percent {
 		position: absolute;
-		right: -35px;
+		right: -42px;
 		top: 25%;
 	}
 	.barline span,

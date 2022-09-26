@@ -15,11 +15,11 @@
 
 <div class="wrapper">
 	{#if type === 'binary'}
-		<div class="info">Spørsmål med <strong>ett</strong> svar</div>
+		<div class="info">Flervalgsspørsmål med <strong>ett</strong> svar</div>
 		<AddQuestion action="?/binary" type="binary" />
 	{/if}
 	{#if type === 'multiple'}
-		<div class="info">Spørsmål med <strong>ett eller flere</strong> svar</div>
+		<div class="info">Flervalgsspørsmål med <strong>flere</strong> svar</div>
 		<AddQuestion action="?/multiple" type="multiple" />
 	{/if}
 	{#if type === 'rating'}

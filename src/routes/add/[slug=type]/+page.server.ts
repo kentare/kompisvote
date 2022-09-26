@@ -3,46 +3,48 @@
 // 3 = rating
 
 import { createQuestion } from '$lib/supabase/insert';
-import type { Action, Actions } from '@sveltejs/kit';
+import { getSessionCookie } from '$lib/utils/cookie';
+import type { Actions } from '@sveltejs/kit';
+
 export interface FormResult {
 	success: boolean;
 	id: number;
 }
 
 export const actions: Actions = {
-	binary: async ({ request, locals }) => {
-		const userId = locals.user.id;
-		if (!userId) return;
+	binary: async ({ request, cookies }) => {
+		const user = getSessionCookie(cookies);
+		if (!user?.id) return;
 		const data = await request.formData();
 		const formData = Object.fromEntries(data.entries());
 		const text = formData.question as string;
 		const answersArray = answersToArray(formData);
-		const question = await createQuestion(text, 1, userId, answersArray);
+		const question = await createQuestion(text, 1, user.id, answersArray);
 		return {
 			success: true,
 			id: question.id
 		};
 	},
-	multiple: async ({ request, locals }) => {
-		const userId = locals.user.id;
-		if (!userId) return;
+	multiple: async ({ request, cookies }) => {
+		const user = getSessionCookie(cookies);
+		if (!user?.id) return;
 		const data = await request.formData();
 		const formData = Object.fromEntries(data.entries());
 		const text = formData.question as string;
 		const answersArray = answersToArray(formData);
-		const question = await createQuestion(text, 2, userId, answersArray);
+		const question = await createQuestion(text, 2, user.id, answersArray);
 		return {
 			success: true,
 			id: question.id
 		};
 	},
-	rating: async ({ request, locals }) => {
-		const userId = locals.user.id;
-		if (!userId) return;
+	rating: async ({ request, cookies }) => {
+		const user = getSessionCookie(cookies);
+		if (!user?.id) return;
 		const data = await request.formData();
 		const formData = Object.fromEntries(data.entries());
 		const text = formData.question as string;
-		const question = await createQuestion(text, 3, userId);
+		const question = await createQuestion(text, 3, user.id);
 		return {
 			success: true,
 			id: question.id

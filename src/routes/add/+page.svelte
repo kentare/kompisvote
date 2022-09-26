@@ -1,7 +1,7 @@
 <div>
 	<h2>Velg spørsmålstype</h2>
-	<a href="/add/binary">Ett riktig svar</a>
-	<a href="/add/multiple">Flerevalgs svar</a>
+	<a href="/add/binary">Flervalgsspørsmål med <strong>ett</strong> svar</a>
+	<a href="/add/multiple">Flervalgsspørsmål med <strong>flere</strong> svar</a>
 	<a href="/add/rating"> Rate 1-10</a>
 </div>
 

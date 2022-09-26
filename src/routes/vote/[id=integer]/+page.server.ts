@@ -2,6 +2,7 @@ import { error as svelteError, type Actions, type ServerLoadEvent } from '@svelt
 import { getQuestion } from '$lib/supabase/read';
 import type { Binary, Multiple, Rating } from '$lib/supabase/types';
 import { answerRating, answerWithAnswerID } from '$lib/supabase/insert';
+import { getSessionCookie } from '$lib/utils/cookie';
 
 export type VoteLoadResult = Rating | Multiple | Binary;
 export async function load({ params }: ServerLoadEvent): Promise<VoteLoadResult> {
@@ -21,12 +22,18 @@ export interface VoteFormResult {
 
 export const actions: Actions = {
 	binary: async ({ request, cookies }) => {
+		const user = getSessionCookie(cookies);
+		if (!user?.id) {
+			return {
+				success: false
+			};
+		}
 		const data = await request.formData();
 		const formData = Object.fromEntries(data.entries());
 		const { error } = await answerWithAnswerID(
 			Number(formData.question_id),
 			[Number(formData.input)],
-			1
+			user.id
 		);
 		if (error) {
 			return {
@@ -39,11 +46,17 @@ export const actions: Actions = {
 		};
 	},
 	multiple: async ({ request, cookies }) => {
+		const user = getSessionCookie(cookies);
+		if (!user?.id) {
+			return {
+				success: false
+			};
+		}
 		const data = await request.formData();
 		const formData = Object.fromEntries(data.entries());
 		const answersArray = answersToIdArray(formData);
 
-		const { error } = await answerWithAnswerID(Number(formData.question_id), answersArray, 1);
+		const { error } = await answerWithAnswerID(Number(formData.question_id), answersArray, user.id);
 		if (error) {
 			return {
 				success: false
@@ -55,9 +68,19 @@ export const actions: Actions = {
 		};
 	},
 	rating: async ({ request, cookies }) => {
+		const user = getSessionCookie(cookies);
+		if (!user?.id) {
+			return {
+				success: false
+			};
+		}
 		const data = await request.formData();
 		const formData = Object.fromEntries(data.entries());
-		const { error } = await answerRating(Number(formData.question_id), Number(formData.input), 1);
+		const { error } = await answerRating(
+			Number(formData.question_id),
+			Number(formData.input),
+			user.id
+		);
 		if (error) {
 			return {
 				success: false
