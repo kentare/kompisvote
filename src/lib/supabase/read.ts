@@ -29,6 +29,39 @@ export const getQuestion = async (id: number) => {
 		.single();
 };
 
+export const getAllQuestions = async () => {
+	return await supabase
+		.from<Rating | Multiple | Binary>('question')
+		.select(
+			`
+    id,
+    text,
+    created_at,
+    type:type_id(name),
+    user:created_by_id(name),
+    possible_answer(text, id),
+    answer(id,
+        numeric,
+        freetext,
+        yn,
+        user:answered_by_user_id(name),
+        answer:possible_answer_id(
+            id,
+            text
+        )
+        )
+    `
+		)
+		.order('created_at', { ascending: false });
+};
+
+export interface QuestionForVote {
+	id: number;
+	text: string;
+	created_at: string;
+}
 export const getQuestionForVote = async (user_id: number) => {
-	return await supabase.rpc('get_unanswered_questions', { user_id: '1' });
+	return await supabase
+		.rpc<QuestionForVote>('get_unanswered_questions_wtimestamp', { user_id: '1' })
+		.order('created_at', { ascending: true });
 };

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { Multiple } from '$lib/supabase/types';
-	import BoxInput from '../inputs/BoxInput.svelte';
-	import Fieldset from '../inputs/Fieldset.svelte';
-	import InvisibleInput from '../inputs/InvisibleInput.svelte';
-	import Legend from '../inputs/Legend.svelte';
-	import SubmitButton from '../inputs/SubmitButton.svelte';
+	import BoxInput from '$lib/components/inputs/BoxInput.svelte';
+	import Fieldset from '$lib/components/inputs/Fieldset.svelte';
+	import InvisibleInput from '$lib/components/inputs/InvisibleInput.svelte';
+	import Legend from '$lib/components/inputs/Legend.svelte';
+	import SubmitButton from '$lib/components/inputs/SubmitButton.svelte';
 
 	export let question: Multiple;
 </script>

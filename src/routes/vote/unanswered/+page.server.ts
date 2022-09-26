@@ -1,10 +1,9 @@
 import { error as svelteError, type ServerLoadEvent } from '@sveltejs/kit';
 import { getQuestionForVote } from '$lib/supabase/read';
 
-export async function load({ params }: ServerLoadEvent) {
-	const { data, error } = await getQuestionForVote(1);
-	console.log(data);
-	console.log(error);
+export async function load() {
+	const { data } = await getQuestionForVote(1);
+
 	if (data) {
 		return data;
 	}

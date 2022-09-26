@@ -1,12 +1,11 @@
 <script lang="ts">
-	import AddQuestion from '$lib/components/questions/AddQuestion.svelte';
+	import AddQuestion from '$lib/components/questions/add/AddQuestion.svelte';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import type { FormResult } from './+page.server';
 	let type = $page.url.pathname.split('/').pop();
 	export let form: FormResult;
-	console.log(form);
 	onMount(() => {
 		if (form?.success) {
 			goto(`/vote/${form.id}`);

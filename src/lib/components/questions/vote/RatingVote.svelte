@@ -1,11 +1,11 @@
 <script lang="ts">
 	import type { Rating } from '$lib/supabase/types';
-	import Fieldset from '../inputs/Fieldset.svelte';
-	import Legend from '../inputs/Legend.svelte';
-	import SubmitButton from '../inputs/SubmitButton.svelte';
+	import Fieldset from '$lib/components/inputs/Fieldset.svelte';
+	import Legend from '$lib/components/inputs/Legend.svelte';
+	import SubmitButton from '$lib/components/inputs/SubmitButton.svelte';
 
 	import { onMount } from 'svelte';
-	import InvisibleInput from '../inputs/InvisibleInput.svelte';
+	import InvisibleInput from '$lib/components/inputs/InvisibleInput.svelte';
 
 	export let question: Rating;
 	let observer;
@@ -40,7 +40,6 @@
 		<Legend>{question.text}</Legend>
 		<InvisibleInput name="question_id" value={question.id} />
 		<InvisibleInput name="input" value={chosen} />
-		<!-- <input name="input" type="number" bind:value={chosen} /> -->
 		<ul id="scrollArea">
 			{#each possibleAnswers as answer}
 				<li>{answer}</li>
@@ -51,13 +50,6 @@
 </form>
 
 <style>
-	input {
-		width: 0px;
-		height: 0px;
-		position: absolute;
-		background: none;
-		border: none;
-	}
 	ul li:first-child {
 		padding-top: 100px;
 	}

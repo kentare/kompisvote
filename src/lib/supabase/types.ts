@@ -3,6 +3,8 @@ export interface Question {
 	id: number;
 	text: string;
 	type: QuestionType;
+	answer?: Answer[];
+	created_at: string;
 }
 
 export interface QuestionType {
@@ -29,6 +31,14 @@ export interface Answer {
 	yn?: boolean;
 	user?: User;
 	answer: PossibleAnswer;
+}
+
+export interface QuestionStructuredOverview {
+	id: number;
+	text: string;
+	percent: number;
+	count: number;
+	winner: boolean;
 }
 
 export interface User {
