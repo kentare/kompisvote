@@ -5,7 +5,9 @@ export async function load() {
 	const { data } = await getAllQuestions();
 
 	if (data) {
-		return data;
+		return {
+			questions: data
+		};
 	}
 
 	throw svelteError(404, 'Not found');

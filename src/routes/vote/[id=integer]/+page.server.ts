@@ -1,7 +1,7 @@
 import { error as svelteError, type Actions, type ServerLoadEvent } from '@sveltejs/kit';
 import { getQuestion } from '$lib/supabase/read';
 import type { Binary, Multiple, Rating } from '$lib/supabase/types';
-import { answerRating, answerWithAnswerID, createQuestion } from '$lib/supabase/insert';
+import { answerRating, answerWithAnswerID } from '$lib/supabase/insert';
 
 export type VoteLoadResult = Rating | Multiple | Binary;
 export async function load({ params }: ServerLoadEvent): Promise<VoteLoadResult> {

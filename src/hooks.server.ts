@@ -1,16 +1,24 @@
 import type { Handle } from '@sveltejs/kit';
 
-export const handle: Handle = async ({ event, resolve }) => {
-	let userid = event.cookies.get('userid');
+function redirect(location: string, body?: string) {
+	return new Response(body, {
+		status: 303,
+		headers: { location }
+	});
+}
 
-	if (!userid) {
-		// if this is the first time the user has visited this app,
-		// set a cookie so that we recognise them when they return
-		userid = crypto.randomUUID();
-		event.cookies.set('userid', userid, { path: '/' });
+const unProtectedRoutes: string[] = ['/login'];
+
+export const handle: Handle = async ({ event, resolve }) => {
+	const session = event.cookies.get('session');
+	if (!session && !unProtectedRoutes.includes(event.url.pathname)) {
+		return redirect('/login', 'No authenticated user.');
 	}
 
-	event.locals.userid = userid;
+	if (!session) return resolve(event);
+	const user = JSON.parse(session);
+
+	event.locals.user = user;
 
 	return resolve(event);
 };

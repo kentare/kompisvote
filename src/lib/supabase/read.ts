@@ -62,6 +62,10 @@ export interface QuestionForVote {
 }
 export const getQuestionForVote = async (user_id: number) => {
 	return await supabase
-		.rpc<QuestionForVote>('get_unanswered_questions_wtimestamp', { user_id: '1' })
+		.rpc<QuestionForVote>('get_unanswered_questions_wtimestamp', { user_id })
 		.order('created_at', { ascending: true });
+};
+
+export const getUser = async (user_name: string) => {
+	return await supabase.from('user').select(`id, name`).ilike('name', user_name).single();
 };

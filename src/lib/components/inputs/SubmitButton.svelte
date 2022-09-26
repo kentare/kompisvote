@@ -1,4 +1,8 @@
-<button>Send inn svar</button>
+<script>
+	export let text = 'Send inn svar';
+</script>
+
+<button>{text}</button>
 
 <style>
 	button {

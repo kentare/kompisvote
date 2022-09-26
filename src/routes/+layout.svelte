@@ -4,12 +4,25 @@
 	import Home from '$lib/components/icons/footer/Home.svelte';
 	import Plus from '$lib/components/icons/footer/Plus.svelte';
 	import QuestionMark from '$lib/components/icons/footer/QuestionMark.svelte';
-	let unanswered = false;
+	import type { User } from '$lib/supabase/types';
+	import LogoutIcon from '$lib/components/icons/LogoutIcon.svelte';
+
+	export let data: {
+		user: User;
+		unanswered: number;
+	};
 </script>
 
 <div class="main">
 	<main>
-		<h1>Kompis.VOTE</h1>
+		<h1 class:user={data.user}>
+			{#if data.user}
+				{data.user.name}
+				<form method="POST" action="/login?/logout"><button><LogoutIcon /> </button></form>
+			{:else}
+				Kompis.vote
+			{/if}
+		</h1>
 		<slot />
 		<nav data-sveltekit-prefetch>
 			<ul>
@@ -21,7 +34,7 @@
 				<li class:active={$page.url.pathname === '/vote/unanswered'}>
 					<a
 						href="/vote/unanswered"
-						class:unanswered={unanswered && $page.url.pathname !== '/vote/unanswered'}
+						class:unanswered={data.unanswered > 0 && $page.url.pathname !== '/vote/unanswered'}
 					>
 						<svelte:component this={QuestionMark} />
 						<span class="bubble" />
@@ -38,6 +51,18 @@
 </div>
 
 <style>
+	.user > form > button {
+		height: 32px;
+		background: none;
+		border: none;
+		color: currentColor;
+	}
+	.user {
+		display: flex;
+		gap: 1rem;
+		height: 100%;
+		justify-content: center;
+	}
 	.unanswered {
 		position: relative;
 		color: #f200ff;
