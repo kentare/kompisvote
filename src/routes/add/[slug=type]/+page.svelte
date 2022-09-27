@@ -26,6 +26,10 @@
 		<div class="info">Spørsmål som rates fra <strong>1 - 10</strong></div>
 		<AddQuestion action="?/rating" type="rating" />
 	{/if}
+	{#if type === 'freetext'}
+		<div class="info">Åpent spørsmål med <strong>fritekst</strong> svar</div>
+		<AddQuestion action="?/freetext" type="freetext" />
+	{/if}
 </div>
 
 <style>

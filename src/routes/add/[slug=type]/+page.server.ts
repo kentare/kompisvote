@@ -1,6 +1,7 @@
 // 1 = binary
 // 2 = multiple
 // 3 = rating
+// 4 = freetext
 
 import { createQuestion } from '$lib/supabase/insert';
 import { getSessionCookie } from '$lib/utils/cookie';
@@ -45,6 +46,18 @@ export const actions: Actions = {
 		const formData = Object.fromEntries(data.entries());
 		const text = formData.question as string;
 		const question = await createQuestion(text, 3, user.id);
+		return {
+			success: true,
+			id: question.id
+		};
+	},
+	freetext: async ({ request, cookies }) => {
+		const user = getSessionCookie(cookies);
+		if (!user?.id) return;
+		const data = await request.formData();
+		const formData = Object.fromEntries(data.entries());
+		const text = formData.question as string;
+		const question = await createQuestion(text, 4, user.id);
 		return {
 			success: true,
 			id: question.id

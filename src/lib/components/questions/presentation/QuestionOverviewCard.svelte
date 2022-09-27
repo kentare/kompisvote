@@ -1,10 +1,17 @@
 <script lang="ts">
 	import { calculateAnswersForQuestions, getAverage } from '$lib/calculations/answer';
 	import Stars from '$lib/components/icons/stars/Stars.svelte';
-	import type { Binary, Multiple, QuestionStructuredOverview, Rating } from '$lib/supabase/types';
-	export let question: Rating | Multiple | Binary;
+	import type {
+		Binary,
+		Freetext,
+		Multiple,
+		QuestionStructuredOverview,
+		Rating
+	} from '$lib/supabase/types';
+	import FreetextAnswer from './FreetextAnswer.svelte';
+	export let question: Rating | Multiple | Binary | Freetext;
 
-	let filtered: (Rating | Multiple | Binary) & {
+	let filtered: (Rating | Multiple | Binary | Freetext) & {
 		average?: number;
 		filtered_question?: QuestionStructuredOverview[];
 	};
@@ -13,6 +20,8 @@
 			...question,
 			average: getAverage(question.answer! ?? [])
 		};
+	} else if (question.type.name === 'freetext') {
+		filtered = { ...question };
 	} else {
 		filtered = {
 			...question,
@@ -25,34 +34,34 @@
 	<div class="question">{filtered.text}</div>
 	{#if filtered?.answer?.length === 0}
 		Ingen har svart på dette spørsmålet
-	{:else}
-		{#if filtered.type.name === 'rating'}
-			<div class="stars">
-				<Stars average={filtered.average} />
-				<div>{filtered.average?.toFixed(2)} / 10</div>
-			</div>
-		{/if}
-
-		{#if filtered.type.name !== 'rating'}
-			{#if filtered.filtered_question}
-				{#each filtered.filtered_question as possible}
-					<div class:active={possible.winner}>
-						<h3>{possible.text}</h3>
-						<div class="barline" style="--barlength: {possible.percent}%;">
-							<div class="barwrapper">
-								<div class="bar">
-									<span class="percent">{possible.percent}%</span>
-								</div>
-							</div>
-							<div class="votes">
-								<span>{possible.count}</span>
-								<span>votes</span>
-							</div>
+	{:else if filtered.type.name === 'rating'}
+		<div class="stars">
+			<Stars average={filtered.average} />
+			<div>{filtered.average?.toFixed(2)} / 10</div>
+		</div>
+	{:else if filtered.type.name === 'freetext' && filtered.answer}
+		{#each filtered.answer as answer}
+			<FreetextAnswer name={answer?.user?.name ?? ''}>
+				{answer.freetext}
+			</FreetextAnswer>
+		{/each}
+	{:else if filtered.filtered_question}
+		{#each filtered.filtered_question as possible}
+			<div class:active={possible.winner}>
+				<h3>{possible.text}</h3>
+				<div class="barline" style="--barlength: {possible.percent}%;">
+					<div class="barwrapper">
+						<div class="bar">
+							<span class="percent">{possible.percent}%</span>
 						</div>
 					</div>
-				{/each}
-			{/if}
-		{/if}
+					<div class="votes">
+						<span>{possible.count}</span>
+						<span>votes</span>
+					</div>
+				</div>
+			</div>
+		{/each}
 	{/if}
 </div>
 

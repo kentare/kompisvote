@@ -59,9 +59,22 @@ export const answerWithAnswerID = async (
 };
 
 export const answerRating = async (question_id: number, rating: number, user_id: number) => {
+	await supabase.from('answer').delete().match({ question_id, answered_by_user_id: user_id });
 	const answer = [
 		{
 			numeric: rating,
+			answered_by_user_id: user_id,
+			question_id
+		}
+	];
+	return await supabase.from<definitions['answer']>('answer').insert(answer);
+};
+
+export const answerFreetext = async (question_id: number, freetext: string, user_id: number) => {
+	await supabase.from('answer').delete().match({ question_id, answered_by_user_id: user_id });
+	const answer = [
+		{
+			freetext,
 			answered_by_user_id: user_id,
 			question_id
 		}

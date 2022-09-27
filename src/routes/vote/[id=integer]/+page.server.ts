@@ -1,7 +1,7 @@
 import { error as svelteError, type Actions, type ServerLoadEvent } from '@sveltejs/kit';
 import { getQuestion } from '$lib/supabase/read';
 import type { Binary, Multiple, Rating } from '$lib/supabase/types';
-import { answerRating, answerWithAnswerID } from '$lib/supabase/insert';
+import { answerFreetext, answerRating, answerWithAnswerID } from '$lib/supabase/insert';
 import { getSessionCookie } from '$lib/utils/cookie';
 import { deleteQuestion } from '$lib/supabase/delete';
 
@@ -78,6 +78,31 @@ export const actions: Actions = {
 		const { error } = await answerRating(
 			Number(formData.question_id),
 			Number(formData.input),
+			user.id
+		);
+		if (error) {
+			return {
+				success: false
+			};
+		}
+		return {
+			success: true,
+			id: formData.question_id
+		};
+	},
+
+	freetext: async ({ request, cookies }) => {
+		const user = getSessionCookie(cookies);
+		if (!user?.id) {
+			return {
+				success: false
+			};
+		}
+		const data = await request.formData();
+		const formData = Object.fromEntries(data.entries());
+		const { error } = await answerFreetext(
+			Number(formData.question_id),
+			formData.input as string,
 			user.id
 		);
 		if (error) {

@@ -4,7 +4,8 @@
 - Alert med confirm - Done
 
 1. Overwrite svar - Done
-2. Åpent spørsmål med fritekst svar
+
+2. Åpent spørsmål med fritekst svar - Done
 3. Likert skala
 
 GOOD TO HAVE:

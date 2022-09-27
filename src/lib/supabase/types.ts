@@ -9,7 +9,7 @@ export interface Question {
 }
 
 export interface QuestionType {
-	name: 'multiple' | 'binary' | 'rating';
+	name: 'multiple' | 'binary' | 'rating' | 'freetext';
 }
 
 export interface PossibleAnswer {
@@ -24,6 +24,8 @@ export interface Multiple extends Question {
 	possible_answer?: PossibleAnswer[];
 }
 export interface Rating extends Question {}
+
+export interface Freetext extends Question {}
 
 export interface Answer {
 	id: number;

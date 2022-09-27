@@ -3,6 +3,7 @@
 	import { quintOut } from 'svelte/easing';
 	import Close from '$lib/components/icons/Close.svelte';
 	import Plus from '$lib/components/icons/footer/Plus.svelte';
+	import TextArea from '$lib/components/inputs/TextArea.svelte';
 
 	export let action = '';
 	export let type = '';
@@ -19,10 +20,7 @@
 </script>
 
 <form class="form" method="POST" {action}>
-	<label class="question" for="question">
-		<textarea rows="4" name="question" type="text" bind:value={question} />
-		<span class="questiontext">Spørsmål</span>
-	</label>
+	<TextArea name="question" value={question} inlineText="Spørsmål" />
 	{#if type === 'binary' || type === 'multiple'}
 		{#each answers as _, i}
 			<label transition:fade={{ duration: 500, easing: quintOut }} for="answer{i}">
