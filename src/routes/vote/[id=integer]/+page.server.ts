@@ -3,16 +3,15 @@ import { getQuestion } from '$lib/supabase/read';
 import type { Binary, Multiple, Rating } from '$lib/supabase/types';
 import { answerRating, answerWithAnswerID } from '$lib/supabase/insert';
 import { getSessionCookie } from '$lib/utils/cookie';
+import { deleteQuestion } from '$lib/supabase/delete';
 
 export type VoteLoadResult = Rating | Multiple | Binary;
-export async function load({ params }: ServerLoadEvent): Promise<VoteLoadResult> {
+export async function load({ params }: ServerLoadEvent): Promise<VoteLoadResult | undefined> {
 	if (!params.id) throw svelteError(404, 'Not found');
 	const { data, error } = await getQuestion(Number(params.id));
 	if (data) {
 		return data;
 	}
-
-	throw svelteError(404, 'Not found');
 }
 
 export interface VoteFormResult {
@@ -86,6 +85,30 @@ export const actions: Actions = {
 				success: false
 			};
 		}
+		return {
+			success: true,
+			id: formData.question_id
+		};
+	},
+	delete: async ({ request, cookies }) => {
+		const user = getSessionCookie(cookies);
+		if (!user?.id) {
+			return {
+				success: false
+			};
+		}
+		const data = await request.formData();
+		const formData = Object.fromEntries(data.entries());
+
+		const question_id = formData.question_id;
+		if (!question_id) {
+			return {
+				success: false
+			};
+		}
+
+		await deleteQuestion(user.id, Number(question_id));
+
 		return {
 			success: true,
 			id: formData.question_id

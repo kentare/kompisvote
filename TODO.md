@@ -1,3 +1,13 @@
-1. Spørsmålstegn vibrera selv om svar (fix: sjekk om du finne en måte å force en hard reload)
-2. Kan svare meir enn 1 gang per spørsmål (fix: upsert)
-3. Riktig svar (binary) kan mistolkes
+1. Fjerne eget spørsmål - Done
+
+- Vis knapp på dine spørsmål - Done
+- Alert med confirm - Done
+
+1. Overwrite svar - Done
+2. Åpent spørsmål med fritekst svar
+3. Likert skala
+
+GOOD TO HAVE:
+Real time update
+Linkedin log in
+Push

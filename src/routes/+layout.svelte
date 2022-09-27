@@ -4,20 +4,15 @@
 	import Home from '$lib/components/icons/footer/Home.svelte';
 	import Plus from '$lib/components/icons/footer/Plus.svelte';
 	import QuestionMark from '$lib/components/icons/footer/QuestionMark.svelte';
-	import type { User } from '$lib/supabase/types';
 	import LogoutIcon from '$lib/components/icons/LogoutIcon.svelte';
-
-	export let data: {
-		user: User;
-		unanswered: number;
-	};
+	let logged_in_user = $page.data.logged_in_user;
 </script>
 
 <div class="main">
 	<main>
-		<h1 class:user={data.user}>
-			{#if data.user}
-				{data.user.name}
+		<h1 class:user={logged_in_user}>
+			{#if logged_in_user}
+				{logged_in_user.name}
 				<form method="POST" action="/login?/logout"><button><LogoutIcon /> </button></form>
 			{:else}
 				Kompis.vote
@@ -34,7 +29,8 @@
 				<li class:active={$page.url.pathname === '/vote/unanswered'}>
 					<a
 						href="/vote/unanswered"
-						class:unanswered={data.unanswered > 0 && $page.url.pathname !== '/vote/unanswered'}
+						class:unanswered={$page.data.unanswered > 0 &&
+							$page.url.pathname !== '/vote/unanswered'}
 					>
 						<svelte:component this={QuestionMark} />
 						<span class="bubble" />

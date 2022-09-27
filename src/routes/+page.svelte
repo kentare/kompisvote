@@ -10,12 +10,20 @@
 
 <div>
 	{#each Object.values(data.questions) as question}
-		<QuestionOverviewCard {question} />
+		<a href="/vote/{question.id}">
+			<QuestionOverviewCard {question} />
+		</a>
 	{/each}
 </div>
 
 <style>
 	:root {
 		--question-color: #d3d3d3;
+	}
+	a {
+		color: inherit;
+	}
+	a:active {
+		text-decoration: none;
 	}
 </style>

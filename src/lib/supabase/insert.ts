@@ -47,6 +47,7 @@ export const answerWithAnswerID = async (
 	possible_answer_ids: number[],
 	user_id: number
 ) => {
+	await supabase.from('answer').delete().match({ question_id, answered_by_user_id: user_id });
 	const answers = possible_answer_ids.map((id) => {
 		return {
 			possible_answer_id: id,

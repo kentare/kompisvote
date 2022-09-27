@@ -1,4 +1,3 @@
-import type { definitions } from 'src/types/supabase';
 import { supabase } from './client';
 import type { Rating, Multiple, Binary } from './types';
 
@@ -10,7 +9,7 @@ export const getQuestion = async (id: number) => {
     id,
     text,
     type:type_id(name),
-    user:created_by_id(name),
+    user:created_by_id(name,id),
     possible_answer(text, id),
     answer(id,
         numeric,
@@ -38,7 +37,7 @@ export const getAllQuestions = async () => {
     text,
     created_at,
     type:type_id(name),
-    user:created_by_id(name),
+    user:created_by_id(name, id),
     possible_answer(text, id),
     answer(id,
         numeric,

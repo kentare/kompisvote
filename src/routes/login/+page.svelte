@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import BoxInput from '$lib/components/inputs/BoxInput.svelte';
 	import SubmitButton from '$lib/components/inputs/SubmitButton.svelte';
 	import { onMount } from 'svelte';
 	import type { LoginFormResponse } from './+page.server';

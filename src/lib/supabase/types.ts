@@ -4,6 +4,7 @@ export interface Question {
 	text: string;
 	type: QuestionType;
 	answer?: Answer[];
+	user: User;
 	created_at: string;
 }
 
@@ -43,4 +44,5 @@ export interface QuestionStructuredOverview {
 
 export interface User {
 	name: string;
+	id: number;
 }

@@ -82,10 +82,6 @@
 	.container input:checked ~ .checkbox:after {
 		display: block;
 	}
-	/* Style the checkmark/indicator */
-	.container .radio:after,
-	.container .checkbox:after {
-	}
 
 	input[type='radio'] {
 		opacity: 0;

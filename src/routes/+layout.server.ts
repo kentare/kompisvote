@@ -7,12 +7,12 @@ export const load = async ({ cookies }: ServerLoadEvent) => {
 	if (user) {
 		const { data } = await getQuestionForVote(user.id);
 		return {
-			user: user,
+			logged_in_user: user,
 			unanswered: data?.length ?? 0
 		};
 	}
 	return {
-		user: user,
+		logged_in_user: user,
 		unanswered: 0
 	};
 };
