@@ -65,15 +65,7 @@
 		left: 16px;
 		top: 24%;
 	}
-	.question {
-		display: flex;
-		flex-direction: column;
-	}
-	.questiontext {
-		position: absolute;
-		left: 10px;
-		top: 10px;
-	}
+
 	.form {
 		display: flex;
 		margin: 1rem;
@@ -97,15 +89,10 @@
 		display: flex;
 	}
 
-	input,
-	textarea {
+	input {
 		border-radius: 1rem;
 		border: 0;
 		padding: 0.5rem 1rem;
-	}
-
-	textarea {
-		padding-top: 2rem;
 	}
 
 	input {

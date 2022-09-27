@@ -6,7 +6,7 @@
 1. Overwrite svar - Done
 
 2. Åpent spørsmål med fritekst svar - Done
-3. Likert skala
+3. Likert skala - On hold
 
 GOOD TO HAVE:
 Real time update

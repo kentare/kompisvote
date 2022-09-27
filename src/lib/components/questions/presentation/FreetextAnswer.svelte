@@ -9,10 +9,8 @@
 
 <style>
 	.name {
-		border-top: 2px solid;
 		margin-top: 0.5rem;
 		padding-top: 0.5rem;
-		border-image: linear-gradient(to right, var(--gradient-colors)) 1;
 	}
 	span {
 		opacity: 0.3;
