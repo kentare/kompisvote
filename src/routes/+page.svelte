@@ -40,6 +40,8 @@
 			.from('answer')
 			.on('INSERT', async (payload) => {
 				await updateQuestion(payload.new.question_id);
+				const { data } = await getQuestionForVote($page.data.logged_in_user.id);
+				unansweredCount.set(data?.length ?? 0);
 			})
 			.subscribe();
 
