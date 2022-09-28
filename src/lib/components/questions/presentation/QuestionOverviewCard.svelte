@@ -15,19 +15,22 @@
 		average?: number;
 		filtered_question?: QuestionStructuredOverview[];
 	};
-	if (question.type.name === 'rating') {
-		filtered = {
-			...question,
-			average: getAverage(question.answer! ?? [])
-		};
-	} else if (question.type.name === 'freetext') {
-		filtered = { ...question };
-	} else {
-		filtered = {
-			...question,
-			filtered_question: calculateAnswersForQuestions(question) ?? []
-		};
+	function filterQ(question: Rating | Multiple | Binary | Freetext) {
+		if (question.type.name === 'rating') {
+			return {
+				...question,
+				average: getAverage(question.answer! ?? [])
+			};
+		} else if (question.type.name === 'freetext') {
+			return { ...question };
+		} else {
+			return {
+				...question,
+				filtered_question: calculateAnswersForQuestions(question) ?? []
+			};
+		}
 	}
+	$: filtered = filterQ(question);
 </script>
 
 <div class="card">

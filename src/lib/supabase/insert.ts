@@ -1,5 +1,5 @@
 import type { definitions } from 'src/types/supabase';
-import { supabase } from './client';
+import { supabase } from './client_server';
 
 export const createQuestion = async (
 	text: string,

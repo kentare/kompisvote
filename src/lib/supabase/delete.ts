@@ -1,4 +1,4 @@
-import { supabase } from './client';
+import { supabase } from './client_server';
 import { getQuestion } from './read';
 
 export async function deleteQuestion(user_id: number, question_id: number) {

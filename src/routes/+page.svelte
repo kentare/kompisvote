@@ -1,15 +1,67 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import QuestionOverviewCard from '$lib/components/questions/presentation/QuestionOverviewCard.svelte';
-	import type { Binary, Multiple, Rating, User } from '$lib/supabase/types';
+	import { unansweredCount } from '$lib/stores/stores';
+	import { supabase } from '$lib/supabase/client';
+	import { getQuestion, getQuestionForVote } from '$lib/supabase/read';
+	import type { Binary, Freetext, Multiple, Rating, User } from '$lib/supabase/types';
+	import { onMount } from 'svelte';
 
 	export let data: {
-		questions: (Rating | Multiple | Binary)[];
+		questions: (Rating | Multiple | Binary | Freetext)[];
 		user: User;
 	};
+
+	let questions = [...data.questions];
+
+	async function updateQuestion(question_id: number) {
+		const { data: newQuestion } = await getQuestion(question_id);
+		questions = questions.map((q) => {
+			if (q.id === newQuestion?.id) {
+				return newQuestion;
+			}
+			return q;
+		});
+	}
+
+	async function addQuestion(question_id: number) {
+		const { data: newQuestion } = await getQuestion(question_id);
+
+		if (newQuestion) {
+			questions = [newQuestion, ...questions];
+		}
+	}
+	async function removeQuestion(question_id: number) {
+		questions = questions.filter((q) => q.id !== question_id);
+	}
+
+	onMount(() => {
+		supabase
+			.from('answer')
+			.on('INSERT', async (payload) => {
+				await updateQuestion(payload.new.question_id);
+			})
+			.subscribe();
+
+		supabase
+			.from('question')
+			.on('INSERT', async (payload) => {
+				await addQuestion(payload.new.id);
+
+				const { data } = await getQuestionForVote($page.data.logged_in_user.id);
+				unansweredCount.set(data?.length ?? 0);
+			})
+			.on('DELETE', async (payload) => {
+				await removeQuestion(payload.old.id);
+				const { data } = await getQuestionForVote($page.data.logged_in_user.id);
+				unansweredCount.set(data?.length ?? 0);
+			})
+			.subscribe();
+	});
 </script>
 
 <div>
-	{#each Object.values(data.questions) as question}
+	{#each questions as question}
 		<a href="/vote/{question.id}">
 			<QuestionOverviewCard {question} />
 		</a>

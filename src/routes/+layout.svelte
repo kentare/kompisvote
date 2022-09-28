@@ -5,7 +5,20 @@
 	import Plus from '$lib/components/icons/footer/Plus.svelte';
 	import QuestionMark from '$lib/components/icons/footer/QuestionMark.svelte';
 	import LogoutIcon from '$lib/components/icons/LogoutIcon.svelte';
+	import { unansweredCount } from '$lib/stores/stores';
+	import { onMount } from 'svelte';
+
 	let logged_in_user = $page.data.logged_in_user;
+
+	let unanswered: number;
+
+	unansweredCount.subscribe((value) => {
+		unanswered = Number(value);
+	});
+	onMount(() => {
+		unansweredCount.set($page.data.unanswered);
+	});
+	$: console.log(unanswered);
 </script>
 
 <div class="main">
@@ -29,8 +42,7 @@
 				<li class:active={$page.url.pathname === '/vote/unanswered'}>
 					<a
 						href="/vote/unanswered"
-						class:unanswered={$page.data.unanswered > 0 &&
-							$page.url.pathname !== '/vote/unanswered'}
+						class:unanswered={unanswered > 0 && $page.url.pathname !== '/vote/unanswered'}
 					>
 						<svelte:component this={QuestionMark} />
 						<span class="bubble" />

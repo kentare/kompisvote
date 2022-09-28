@@ -9,6 +9,6 @@
 3. Likert skala - On hold
 
 GOOD TO HAVE:
-Real time update
+Real time update - On going
 Linkedin log in
 Push
